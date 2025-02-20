@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;    
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 90px;
+    border-radius: 20px;
+    background-color: blueviolet;
+    
+   
+}
+.titre{
+    font-size: 45px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+p2{
+    font-size: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
+
+.bouton{
+    
+    border-radius:5px;
+    background-color: rgb(65, 200, 42);
+    padding-left:2%;
+    padding-right:2% ;
+    
+}
+.textbouton{
+    
+    margin: 2px;
+    
+    
+}
+.inputtext{
+    text-align: center;
+    border-radius: 5px;
+    padding-top: 2%; 
+    
+}
+.erreur{
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    color: red;
+    display: none;
+}
+.input_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    display: none;
+
+}
+.replay{
+    background: transparent;
+    border: 0px;
+    margin-left:85%;
+    margin-bottom: 10px;
+}
+a{
+    margin: 7px;
+}
+.cent{
+    position: absolute;
+    align-items: center;
+    padding: 13px;
+    border: 1px;
+    border-radius: 20px;
+    background-color: rgb(177, 226, 43);
+    
+}
+h5{
+    margin-left:3%;
+    margin-top: -30px;
+    margin-bottom: 0px;
+}
+<style/>
+<body>
+    <div class="cent" id="cent">
+        <button class="replay" id="rejouer"><a href="home.html">Rejouer</a></button>
+        <h5 id="Vie">Vie: 6</h5>
+        <div class="box" id="boite" action="home.html" method="POST">
+            <p class="titre" id="titre">Jeu de devinette</p>
+            <p2 id="SousTitre">Nombre entre 0 et 100</p2>
+            <p3 id="invalinput" class="erreur"></p3>
+
+                <input type="text" id="inputUser" class="inputtext" placeholder="Nombre">
+                <button class="bouton" type="button" id="bouton" onclick="Traiter(), voirResultat()">
+                    <p id="TextValide" class="textbouton">Valider</p>
+                </button>
+            
+            <p3 id="invalinput1" class="info"></p3>
+        </div>
+    </div>
+   
+
+    <script>
+      var number = Math.floor(Math.random() * (100 - 2)) + 2;
+var tentative = 5;
+// document.getElementById("Vie").innerHTML = "Vie: "+tentative;
+const Traiter = () =>{
+
+    let inuputuser = document.getElementById("inputUser").value;
+    let longueur_inputuser = inuputuser.length;
+    if(longueur_inputuser != 0){
+        if(inuputuser <= number){
+            document.getElementById("invalinput1").textContent ="augmenter votre nombre";
+            const rouge = () => {
+                let tored = document.getElementById("bouton")
+                tored.style.backgroundColor = "rgb(199, 139, 42)";
+                setTimeout(function(){
+                    tored.style.backgroundColor = "rgb(65, 200, 42)";
+                }, 3000);
+            }
+            rouge();
+            const changetext = () => {
+                document.getElementById("TextValide").innerHTML = "Oups";
+                setTimeout(function(){
+                    document.getElementById("TextValide").innerHTML = "Valider";    
+                }, 3000);
+            }
+            changetext();
+            
+        }else if(inuputuser >= number){
+            document.getElementById("invalinput1").textContent ="diminuer votre nombre";
+            const rouge = () => {
+                let tored = document.getElementById("bouton")
+                tored.style.backgroundColor = "rgb(217, 78, 31)";
+                setTimeout(function(){
+                    tored.style.backgroundColor = "rgb(65, 200, 42)";
+                }, 3000);
+            }
+            
+            const changetext = () => {
+                document.getElementById("TextValide").innerHTML = "Oups";
+                setTimeout(function(){
+                    document.getElementById("TextValide").innerHTML = "Valider";    
+                }, 3000);
+            }
+            rouge();
+            changetext();
+
+
+        }
+        
+        
+    document.getElementById("Vie").innerHTML = "Vie: "+tentative;    
+    tentative--;
+    console.log(tentative); 
+    if (tentative == -1){
+        const voirErreur = () => {
+            let afficherErreur = document.getElementById("invalinput");
+            afficherErreur.style.display = "block";
+            setTimeout(function(){
+                afficherErreur.style.display = "none";
+            }, 9000);
+        }
+        document.getElementById("invalinput").innerHTML ="GAME OVER\n le nombre était: "+number+" !";
+        voirErreur();
+        setTimeout(function(){
+            location.reload();
+        }, 4000);
+    }    
+    }else{
+        const voirErreur = () => {
+            let afficherErreur = document.getElementById("invalinput")
+            afficherErreur.style.display = "block";
+            setTimeout(function(){
+                afficherErreur.style.display = "none";
+            }, 3000);
+        }
+        voirErreur();
+        document.getElementById("invalinput").innerHTML ="Une erreur "+number+" s'est produite";
+        
+    }
+    if(number == inuputuser){
+        document.getElementById("invalinput1").innerHTML = "Bravo! " + inuputuser +" était le nombre";
+        const jaune = () => {
+            let tored = document.getElementById("bouton")
+            let tojaune = document.getElementById("cent")
+            tored.style.backgroundColor = "rgb(255, 251, 0)";
+            tojaune.style.backgroundColor = "rgb(251, 255, 0)";
+            setTimeout(function(){
+                tored.style.backgroundColor = "rgb(65, 200, 42)";
+                tojaune.style.backgroundColor = "rgb(177, 226, 43)";
+            }, 3000);
+        }
+        
+        const changetext1 = () => {
+            document.getElementById("TextValide").innerHTML = "Bravo!";
+            setTimeout(function(){
+                document.getElementById("TextValide").innerHTML = "Valider";    
+            }, 6000);
+        }
+        jaune();
+        changetext1();
+        setTimeout(function(){
+            location.reload();
+        }, 3000);
+        
+    }
+    
+       
+}
+
+const voirResultat = () => {
+    let afficherResultat = document.getElementById("invalinput1")
+    afficherResultat.style.display = "block";
+    setTimeout(function(){
+        afficherResultat.style.display = "none";
+    }, 3000);
+}
+    </script>
+</body>
+</html>
